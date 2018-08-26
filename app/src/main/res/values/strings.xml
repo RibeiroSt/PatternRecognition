@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">DataCollector</string>
+    <string name="ok">OK</string>
+    <string name="name">Name</string>
+    <string name="textview">TextView</string>
+    <string name="title_activity_train">TrainActivity</string>
+    <string name="title_activity_colect">ColectActivity</string>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="activities_array">
+        <item>Andar</item>
+        <item>Correr</item>
+        <item>Saltar</item>
+        <item>Descer escadas</item>
+        <item>Subir escadas</item>
+        <item>Andar de carro</item>
+    </string-array>
+</resources>
