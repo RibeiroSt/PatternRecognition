@@ -77,7 +77,7 @@ public class CollectActivity extends AppCompatActivity implements ServiceListene
 
         hcTxtInfo1 = findViewById(R.id.textView2);
         chooseUserActivity = findViewById(R.id.choose_activity);
-        startButton = findViewById(R.id.button);
+        startButton = findViewById(R.id.start);
         stopButton = findViewById(R.id.stop);
         deleteButton = findViewById(R.id.delete);
 

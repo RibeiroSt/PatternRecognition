@@ -22,7 +22,7 @@ public class ManagementActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_gerir_actividade);
+        setContentView(R.layout.activity_management);
         addText = findViewById(R.id.editText);
 
         escolhaActividade = findViewById(R.id.choose_activity);
