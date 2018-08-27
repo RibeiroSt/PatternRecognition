@@ -20,7 +20,7 @@ import zokscore.com.mobile.patternrecognition.recognition.TrainIntentService;
 
 public class AndroidTrainClassifier extends FFTAccGyroscope64 {
 
-    private static final String PREFERENCES = "com.example.renato.datacollector.train.PREFERENCES";
+    private static final String PREFERENCES = "zokscore.com.mobile.patternrecognition.train.PREFERENCES";
 
     private SharedPreferences sharedPreferences;
     private List<String> classesList;
@@ -40,7 +40,7 @@ public class AndroidTrainClassifier extends FFTAccGyroscope64 {
 
         Classifier c = null;
         try {
-            File file = new File(Environment.getExternalStoragePublicDirectory(TrainIntentService.FILE_DIR), TrainIntentService.CLASSIFIER_NAME);
+            File file = new File(contextInstance.getFilesDir(), TrainIntentService.CLASSIFIER_NAME);
             c = (Classifier) weka.core.SerializationHelper
                     .read(new FileInputStream(file));
             System.out.println(c);

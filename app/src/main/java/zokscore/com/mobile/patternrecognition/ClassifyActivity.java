@@ -328,7 +328,7 @@ public class ClassifyActivity extends AppCompatActivity implements ServiceListen
 
             return;
         }
-        algoritmo = "com.example.renato.datacollector.classifiers." + algoritmo;
+        algoritmo = "zokscore.com.mobile.patternrecognition.classifiers." + algoritmo;
         try {
             Class alg = Class.forName(algoritmo);
 

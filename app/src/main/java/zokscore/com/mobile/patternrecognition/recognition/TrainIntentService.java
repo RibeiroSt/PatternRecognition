@@ -42,13 +42,10 @@ import zokscore.com.mobile.patternrecognition.TrainActivity;
  */
 public class TrainIntentService extends IntentService {
 
-    private static final String PREFERENCES = "com.example.renato.datacollector.train.PREFERENCES";
-    public static final String ACTION_TRAIN      = "com.example.renato.datacollector.train.action.TRAIN";
-    public static final String APP_CHANNEL_ID    = "DATACOLLECTOR_CHANNEL";
-    public static final String CLASSIFIER_NAME   = "classifier.model";
-    public static final String FILE_DIR          = Environment.DIRECTORY_DOWNLOADS;
-    public static final String ARFF_FILE         = Environment.getExternalStoragePublicDirectory(FILE_DIR) + File.separator + CollectActivity.FILE_NAME;
-    public static final String AUTO_MODE_NAME    = Environment.getExternalStoragePublicDirectory(FILE_DIR) + File.separator + CLASSIFIER_NAME;
+    private static final String PREFERENCES       = "zokscore.com.mobile.patternrecognition.train.PREFERENCES";
+    public  static final String ACTION_TRAIN      = "zokscore.com.mobile.patternrecognition.train.action.TRAIN";
+    public  static final String APP_CHANNEL_ID    = "DATACOLLECTOR_CHANNEL";
+    public  static final String CLASSIFIER_NAME   = "classifier.model";
 
     private File model;
     private String completeText;
@@ -105,7 +102,7 @@ public class TrainIntentService extends IntentService {
 
         try {
             completeText = "";
-            File f = new File(ARFF_FILE);
+            File f = new File(getFilesDir(), CollectActivity.FILE_NAME);
             if (!f.exists() || f.length()==0 ) {
                 sendBroadcastText("ARFF file does not exist or is empty.");
                 sendBroadcastCommand(TrainActivity.UNLOCK_ACTIVITY);
@@ -246,7 +243,7 @@ public class TrainIntentService extends IntentService {
             }
 
             //save the best classifier
-            model = new File(Environment.getExternalStoragePublicDirectory(FILE_DIR), CLASSIFIER_NAME);
+            model = new File(getFilesDir(), CLASSIFIER_NAME);
             weka.core.SerializationHelper.write(model.getAbsolutePath(), bestClassifier);
 
             sendBroadcastText("\nChoosen classifier: " + bestClassifier.getClass().getSimpleName());
