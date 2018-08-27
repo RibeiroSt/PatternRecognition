@@ -20,7 +20,7 @@ import zokscore.com.mobile.patternrecognition.recognition.TrainIntentService;
 
 public class AndroidTrainClassifier extends FFTAccGyroscope64 {
 
-    private static final String PREFERENCES = "zokscore.com.mobile.patternrecognition.train.PREFERENCES";
+    private static final String PREFERENCES = "zokscore.com.mobile.patternrecognition.recognition.PREFERENCES";
 
     private SharedPreferences sharedPreferences;
     private List<String> classesList;

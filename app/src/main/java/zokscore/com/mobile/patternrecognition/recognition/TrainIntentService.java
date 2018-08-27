@@ -42,8 +42,8 @@ import zokscore.com.mobile.patternrecognition.TrainActivity;
  */
 public class TrainIntentService extends IntentService {
 
-    private static final String PREFERENCES       = "zokscore.com.mobile.patternrecognition.train.PREFERENCES";
-    public  static final String ACTION_TRAIN      = "zokscore.com.mobile.patternrecognition.train.action.TRAIN";
+    private static final String PREFERENCES       = "zokscore.com.mobile.patternrecognition.recognition.PREFERENCES";
+    public  static final String ACTION_TRAIN      = "zokscore.com.mobile.patternrecognition.recognition.action.TRAIN";
     public  static final String APP_CHANNEL_ID    = "DATACOLLECTOR_CHANNEL";
     public  static final String CLASSIFIER_NAME   = "classifier.model";
 
