@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 import zokscore.com.mobile.patternrecognition.db.DatabaseHandler;
@@ -81,8 +84,32 @@ public class CollectActivity extends AppCompatActivity implements ServiceListene
         stopButton = findViewById(R.id.stop);
         deleteButton = findViewById(R.id.delete);
 
-        loadSpinnerData();
+        //loadSpinnerData();
+        file = new File(getFilesDir(), FILE_NAME);
+    }
 
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+
+        sensorsIntent = new Intent(this, SensorsService.class);
+        bindService(sensorsIntent, sensorsServiceConnection, Context.BIND_AUTO_CREATE);
+        startService(sensorsIntent);
+
+        loadSpinnerData();
+    }
+
+    @Override
+    protected void onStop() {
+
+        super.onStop();
+
+        if (sensorsServiceBound) {
+            sensorsService.unregisterComponentCallbacks(CollectActivity.this);
+            unbindService(sensorsServiceConnection);
+            sensorsServiceBound = false;
+        }
     }
 
     @Override
@@ -135,34 +162,7 @@ public class CollectActivity extends AppCompatActivity implements ServiceListene
 
         // attaching data adapter to spinner
         chooseUserActivity.setAdapter(dataAdapter);
-
-        file = new File(getFilesDir(), FILE_NAME);
-
     }
-
-
-    @Override
-    protected void onStart() {
-
-        super.onStart();
-
-        sensorsIntent = new Intent(this, SensorsService.class);
-        bindService(sensorsIntent, sensorsServiceConnection, Context.BIND_AUTO_CREATE);
-        startService(sensorsIntent);
-    }
-
-    @Override
-    protected void onStop() {
-
-        super.onStop();
-
-        if (sensorsServiceBound) {
-            sensorsService.unregisterComponentCallbacks(CollectActivity.this);
-            unbindService(sensorsServiceConnection);
-            sensorsServiceBound = false;
-        }
-    }
-
 
     public void onClickStart(View view) {
 
@@ -175,169 +175,13 @@ public class CollectActivity extends AppCompatActivity implements ServiceListene
         line = 0;
 
         try {
-            if (!file.exists()) {
-
-                file.createNewFile();
-            }
-            fileWriter = new FileWriter(file, true);
+            fileWriter = getFileWriter();
 
             if (file.length() == 0) {
 
-                DatabaseHandler db = new DatabaseHandler(this);
-                String classes = null;
-                List<String> classesList = db.getAllActivities();
-                for(String c : classesList) {
-                    if( classes == null ) {
-                        classes = "'" + c + "'";
-                    } else {
-                        classes += ", '" + c + "'";
-                    }
-                }
-
-                fileWriter.append("@RELATION sample\n" +
-                        "\n" +
-                        "@ATTRIBUTE 'acc_fft_1' real\n" +
-                        "@ATTRIBUTE 'acc_fft_2' real\n" +
-                        "@ATTRIBUTE 'acc_fft_3' real\n" +
-                        "@ATTRIBUTE 'acc_fft_4' real\n" +
-                        "@ATTRIBUTE 'acc_fft_5' real\n" +
-                        "@ATTRIBUTE 'acc_fft_6' real\n" +
-                        "@ATTRIBUTE 'acc_fft_7' real\n" +
-                        "@ATTRIBUTE 'acc_fft_8' real\n" +
-                        "@ATTRIBUTE 'acc_fft_9' real\n" +
-                        "@ATTRIBUTE 'acc_fft_10' real\n" +
-                        "@ATTRIBUTE 'acc_fft_11' real\n" +
-                        "@ATTRIBUTE 'acc_fft_12' real\n" +
-                        "@ATTRIBUTE 'acc_fft_13' real\n" +
-                        "@ATTRIBUTE 'acc_fft_14' real\n" +
-                        "@ATTRIBUTE 'acc_fft_15' real\n" +
-                        "@ATTRIBUTE 'acc_fft_16' real\n" +
-                        "@ATTRIBUTE 'acc_fft_17' real\n" +
-                        "@ATTRIBUTE 'acc_fft_18' real\n" +
-                        "@ATTRIBUTE 'acc_fft_19' real\n" +
-                        "@ATTRIBUTE 'acc_fft_20' real\n" +
-                        "@ATTRIBUTE 'acc_fft_21' real\n" +
-                        "@ATTRIBUTE 'acc_fft_22' real\n" +
-                        "@ATTRIBUTE 'acc_fft_23' real\n" +
-                        "@ATTRIBUTE 'acc_fft_24' real\n" +
-                        "@ATTRIBUTE 'acc_fft_25' real\n" +
-                        "@ATTRIBUTE 'acc_fft_26' real\n" +
-                        "@ATTRIBUTE 'acc_fft_27' real\n" +
-                        "@ATTRIBUTE 'acc_fft_28' real\n" +
-                        "@ATTRIBUTE 'acc_fft_29' real\n" +
-                        "@ATTRIBUTE 'acc_fft_30' real\n" +
-                        "@ATTRIBUTE 'acc_fft_31' real\n" +
-                        "@ATTRIBUTE 'acc_fft_32' real\n" +
-                        "@ATTRIBUTE 'acc_fft_33' real\n" +
-                        "@ATTRIBUTE 'acc_fft_34' real\n" +
-                        "@ATTRIBUTE 'acc_fft_35' real\n" +
-                        "@ATTRIBUTE 'acc_fft_36' real\n" +
-                        "@ATTRIBUTE 'acc_fft_37' real\n" +
-                        "@ATTRIBUTE 'acc_fft_38' real\n" +
-                        "@ATTRIBUTE 'acc_fft_39' real\n" +
-                        "@ATTRIBUTE 'acc_fft_40' real\n" +
-                        "@ATTRIBUTE 'acc_fft_41' real\n" +
-                        "@ATTRIBUTE 'acc_fft_42' real\n" +
-                        "@ATTRIBUTE 'acc_fft_43' real\n" +
-                        "@ATTRIBUTE 'acc_fft_44' real\n" +
-                        "@ATTRIBUTE 'acc_fft_45' real\n" +
-                        "@ATTRIBUTE 'acc_fft_46' real\n" +
-                        "@ATTRIBUTE 'acc_fft_47' real\n" +
-                        "@ATTRIBUTE 'acc_fft_48' real\n" +
-                        "@ATTRIBUTE 'acc_fft_49' real\n" +
-                        "@ATTRIBUTE 'acc_fft_50' real\n" +
-                        "@ATTRIBUTE 'acc_fft_51' real\n" +
-                        "@ATTRIBUTE 'acc_fft_52' real\n" +
-                        "@ATTRIBUTE 'acc_fft_53' real\n" +
-                        "@ATTRIBUTE 'acc_fft_54' real\n" +
-                        "@ATTRIBUTE 'acc_fft_55' real\n" +
-                        "@ATTRIBUTE 'acc_fft_56' real\n" +
-                        "@ATTRIBUTE 'acc_fft_57' real\n" +
-                        "@ATTRIBUTE 'acc_fft_58' real\n" +
-                        "@ATTRIBUTE 'acc_fft_59' real\n" +
-                        "@ATTRIBUTE 'acc_fft_60' real\n" +
-                        "@ATTRIBUTE 'acc_fft_61' real\n" +
-                        "@ATTRIBUTE 'acc_fft_62' real\n" +
-                        "@ATTRIBUTE 'acc_fft_63' real\n" +
-                        "@ATTRIBUTE 'acc_fft_64' real\n" +
-                        "@ATTRIBUTE 'acc_va_max' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_1' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_2' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_3' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_4' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_5' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_6' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_7' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_8' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_9' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_10' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_11' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_12' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_13' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_14' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_15' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_16' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_17' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_18' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_19' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_20' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_21' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_22' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_23' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_24' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_25' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_26' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_27' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_28' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_29' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_30' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_31' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_32' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_33' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_34' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_35' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_36' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_37' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_38' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_39' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_40' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_41' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_42' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_43' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_44' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_45' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_46' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_47' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_48' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_49' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_50' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_51' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_52' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_53' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_54' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_55' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_56' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_57' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_58' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_59' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_60' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_61' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_62' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_63' real\n" +
-                        "@ATTRIBUTE 'gyroscope_fft_64' real\n" +
-                        "@ATTRIBUTE 'gyroscope_va_max' real\n" +
-                        "@ATTRIBUTE 'stepdetector' real\n" +
-                        "@ATTRIBUTE 'activity' {"+classes+"}\n" +
-                        "\n" +
-                        "@DATA\n");
-
+                appendClasses();
             }
-
-            for (Integer sensor: Sensors.getInstance(this).getClassifySensors()) {
-
-                sensorsService.getSensors().addSensor(sensor);
-            }
-            sensorsService.startCollectingToClassify(new ClassifierTrainData(this));
+            startCollecting();
 
         } catch (Exception e) {
 
@@ -475,5 +319,183 @@ public class CollectActivity extends AppCompatActivity implements ServiceListene
                     Intent.ACTION_MEDIA_MOUNTED,
                     Uri.parse("file://" + getFilesDir())));
         }
+    }
+
+    @NonNull
+    private String getFileHeader(String classes) {
+
+        return "@RELATION sample\n" +
+                "\n" +
+                "@ATTRIBUTE 'acc_fft_1' real\n" +
+                "@ATTRIBUTE 'acc_fft_2' real\n" +
+                "@ATTRIBUTE 'acc_fft_3' real\n" +
+                "@ATTRIBUTE 'acc_fft_4' real\n" +
+                "@ATTRIBUTE 'acc_fft_5' real\n" +
+                "@ATTRIBUTE 'acc_fft_6' real\n" +
+                "@ATTRIBUTE 'acc_fft_7' real\n" +
+                "@ATTRIBUTE 'acc_fft_8' real\n" +
+                "@ATTRIBUTE 'acc_fft_9' real\n" +
+                "@ATTRIBUTE 'acc_fft_10' real\n" +
+                "@ATTRIBUTE 'acc_fft_11' real\n" +
+                "@ATTRIBUTE 'acc_fft_12' real\n" +
+                "@ATTRIBUTE 'acc_fft_13' real\n" +
+                "@ATTRIBUTE 'acc_fft_14' real\n" +
+                "@ATTRIBUTE 'acc_fft_15' real\n" +
+                "@ATTRIBUTE 'acc_fft_16' real\n" +
+                "@ATTRIBUTE 'acc_fft_17' real\n" +
+                "@ATTRIBUTE 'acc_fft_18' real\n" +
+                "@ATTRIBUTE 'acc_fft_19' real\n" +
+                "@ATTRIBUTE 'acc_fft_20' real\n" +
+                "@ATTRIBUTE 'acc_fft_21' real\n" +
+                "@ATTRIBUTE 'acc_fft_22' real\n" +
+                "@ATTRIBUTE 'acc_fft_23' real\n" +
+                "@ATTRIBUTE 'acc_fft_24' real\n" +
+                "@ATTRIBUTE 'acc_fft_25' real\n" +
+                "@ATTRIBUTE 'acc_fft_26' real\n" +
+                "@ATTRIBUTE 'acc_fft_27' real\n" +
+                "@ATTRIBUTE 'acc_fft_28' real\n" +
+                "@ATTRIBUTE 'acc_fft_29' real\n" +
+                "@ATTRIBUTE 'acc_fft_30' real\n" +
+                "@ATTRIBUTE 'acc_fft_31' real\n" +
+                "@ATTRIBUTE 'acc_fft_32' real\n" +
+                "@ATTRIBUTE 'acc_fft_33' real\n" +
+                "@ATTRIBUTE 'acc_fft_34' real\n" +
+                "@ATTRIBUTE 'acc_fft_35' real\n" +
+                "@ATTRIBUTE 'acc_fft_36' real\n" +
+                "@ATTRIBUTE 'acc_fft_37' real\n" +
+                "@ATTRIBUTE 'acc_fft_38' real\n" +
+                "@ATTRIBUTE 'acc_fft_39' real\n" +
+                "@ATTRIBUTE 'acc_fft_40' real\n" +
+                "@ATTRIBUTE 'acc_fft_41' real\n" +
+                "@ATTRIBUTE 'acc_fft_42' real\n" +
+                "@ATTRIBUTE 'acc_fft_43' real\n" +
+                "@ATTRIBUTE 'acc_fft_44' real\n" +
+                "@ATTRIBUTE 'acc_fft_45' real\n" +
+                "@ATTRIBUTE 'acc_fft_46' real\n" +
+                "@ATTRIBUTE 'acc_fft_47' real\n" +
+                "@ATTRIBUTE 'acc_fft_48' real\n" +
+                "@ATTRIBUTE 'acc_fft_49' real\n" +
+                "@ATTRIBUTE 'acc_fft_50' real\n" +
+                "@ATTRIBUTE 'acc_fft_51' real\n" +
+                "@ATTRIBUTE 'acc_fft_52' real\n" +
+                "@ATTRIBUTE 'acc_fft_53' real\n" +
+                "@ATTRIBUTE 'acc_fft_54' real\n" +
+                "@ATTRIBUTE 'acc_fft_55' real\n" +
+                "@ATTRIBUTE 'acc_fft_56' real\n" +
+                "@ATTRIBUTE 'acc_fft_57' real\n" +
+                "@ATTRIBUTE 'acc_fft_58' real\n" +
+                "@ATTRIBUTE 'acc_fft_59' real\n" +
+                "@ATTRIBUTE 'acc_fft_60' real\n" +
+                "@ATTRIBUTE 'acc_fft_61' real\n" +
+                "@ATTRIBUTE 'acc_fft_62' real\n" +
+                "@ATTRIBUTE 'acc_fft_63' real\n" +
+                "@ATTRIBUTE 'acc_fft_64' real\n" +
+                "@ATTRIBUTE 'acc_va_max' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_1' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_2' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_3' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_4' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_5' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_6' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_7' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_8' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_9' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_10' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_11' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_12' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_13' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_14' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_15' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_16' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_17' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_18' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_19' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_20' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_21' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_22' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_23' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_24' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_25' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_26' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_27' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_28' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_29' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_30' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_31' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_32' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_33' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_34' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_35' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_36' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_37' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_38' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_39' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_40' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_41' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_42' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_43' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_44' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_45' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_46' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_47' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_48' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_49' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_50' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_51' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_52' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_53' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_54' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_55' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_56' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_57' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_58' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_59' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_60' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_61' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_62' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_63' real\n" +
+                "@ATTRIBUTE 'gyroscope_fft_64' real\n" +
+                "@ATTRIBUTE 'gyroscope_va_max' real\n" +
+                "@ATTRIBUTE 'stepdetector' real\n" +
+                "@ATTRIBUTE 'activity' {" + classes + "}\n" +
+                "\n" +
+                "@DATA\n";
+    }
+
+    private void appendClasses() throws IOException {
+
+        DatabaseHandler db = new DatabaseHandler(this);
+        String classes = null;
+        List<String> classesList = db.getAllActivities();
+
+        for(String c : classesList) {
+
+            if (classes == null) {
+
+                classes = "'" + c + "'";
+            } else {
+
+                classes += ", '" + c + "'";
+            }
+        }
+        fileWriter.append(getFileHeader(classes));
+    }
+
+    private FileWriter getFileWriter() throws IOException {
+
+        if (!file.exists()) {
+
+            file.createNewFile();
+        }
+        return new FileWriter(file, true);
+    }
+
+    private void startCollecting() {
+
+        for (Integer sensor: Sensors.getInstance(this).getClassifySensors()) {
+
+            sensorsService.getSensors().addSensor(sensor);
+        }
+        sensorsService.startCollectingToClassify(new ClassifierTrainData(this));
     }
 }
