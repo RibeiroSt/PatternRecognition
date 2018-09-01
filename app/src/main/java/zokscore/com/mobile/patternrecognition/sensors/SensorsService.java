@@ -75,7 +75,7 @@ public class SensorsService extends Service implements SensorDataListener {
         return sensors;
     }
 
-    public void startCollectingToClassify(ActivityClassifier mapper){
+    public void startCollecting(ActivityClassifier mapper){
 
         this.activityClassifier = mapper;
 
@@ -103,11 +103,7 @@ public class SensorsService extends Service implements SensorDataListener {
 
     @Override
     public void onSensorData(SensorData data) {
-
-        if (verifyClassifying()) {
-
-            onSensorClassify(data);
-        }
+        onSensorClassify(data);
     }
 
     private void onSensorClassify(SensorData data) {
@@ -124,16 +120,4 @@ public class SensorsService extends Service implements SensorDataListener {
         }
     }
 
-    @Override
-    public boolean verifyClassifying() {
-
-//        if (activityCallback == null) {
-//
-//            return false;
-//        }
-//
-//        return activityCallback.isClassifying();
-
-        return activityClassifier != null;
-    }
 }

@@ -10,6 +10,9 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -39,8 +42,6 @@ public class ClassifyActivity extends AppCompatActivity implements ServiceListen
     private TextView hcTxtInfo1;
     private Button hcBtnStart;
     private Button hcBtnStop;
-    private Spinner chooseClassifier;
-    private ImageView activityImage;
 
     private Bitmap andar;
     private Bitmap andarDeCarro;
@@ -88,76 +89,40 @@ public class ClassifyActivity extends AppCompatActivity implements ServiceListen
         hcTxtInfo1 = findViewById(R.id.hc_txt_info1);
         hcBtnStart = findViewById(R.id.hc_btn_start);
         hcBtnStop = findViewById(R.id.hc_btn_stop);
-        activityImage = findViewById(R.id.currentActivityImg);
-
-        chooseClassifier = findViewById(R.id.algoritmo);
-        ArrayList<String> algoritmos = new ArrayList<String>();
-
-        //lista de classificadores
-        /*
-        algoritmos.add(LogisticPaulo.class.getSimpleName());
-        algoritmos.add(LogisticPauloCompleto.class.getSimpleName());
-        algoritmos.add(ComMedia1.class.getSimpleName());
-        algoritmos.add(ComMedia2.class.getSimpleName());
-        algoritmos.add(ComMedia3.class.getSimpleName());
-        algoritmos.add(ComMedia4.class.getSimpleName());
-        algoritmos.add(ComMedia5.class.getSimpleName());
-        */
-
-        algoritmos.add(AndroidTrainClassifier.class.getSimpleName());
-
-        algoritmos.add("-- 7 atividades");
-
-        /*
-        algoritmos.add(J48FFTAccGyroscope64.class.getSimpleName());
-//        algoritmos.add(RandomForestFFTAccGyroscope64.class.getSimpleName());
-        algoritmos.add(HoeffdingTreeFFTAccGyroscope64.class.getSimpleName());
-        algoritmos.add(PARTFFTAccGyroscope64.class.getSimpleName());
-        algoritmos.add(LMTFFTAccGyroscope64.class.getSimpleName());
-        algoritmos.add(REPTreeFFTAccGyroscope64.class.getSimpleName());
-        algoritmos.add(JRIPFFTAccGyroscope64.class.getSimpleName());
-
-        algoritmos.add("-- só 4 atividades");
-
-        algoritmos.add(J48FFTAccGyroscope64_4.class.getSimpleName());
-        algoritmos.add(LMTFFTAccGyroscope64_4.class.getSimpleName());
-
-        algoritmos.add("-- fft 128 recolhas");
-
-        algoritmos.add(J48FFTAccGyroscope128.class.getSimpleName());
-//        algoritmos.add(RandomForestFFTAccGyroscope128.class.getSimpleName());
-        algoritmos.add(HoeffdingTreeFFTAccGyroscope128.class.getSimpleName());
-        algoritmos.add(PARTFFTAccGyroscope128.class.getSimpleName());
-        algoritmos.add(LMTFFTAccGyroscope128.class.getSimpleName());
-        algoritmos.add(REPTreeFFTAccGyroscope128.class.getSimpleName());
-        algoritmos.add(JRIPFFTAccGyroscope128.class.getSimpleName());
-
-        algoritmos.add("-- iniciais");
-
-        algoritmos.add(ComMedia1.class.getSimpleName());
-        algoritmos.add(ComMedia2.class.getSimpleName());
-        algoritmos.add(ComMedia3.class.getSimpleName());
-        algoritmos.add(ComMedia4.class.getSimpleName());
-        algoritmos.add(ComMedia5.class.getSimpleName());
-        algoritmos.add(LogisticPaulo.class.getSimpleName());
-        algoritmos.add(LogisticPauloCompleto.class.getSimpleName());
-        */
+    }
 
 
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, algoritmos);
-        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        chooseClassifier.setAdapter(adaptador);
-        chooseClassifier.setSelection(0);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
 
-        andar = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.andar), 512, 512, true);
-        andarDeCarro = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.andar_carro), 512, 512, true);
-        nenhuma = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.nenhuma), 512, 512, true);
-        correr = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.correr), 512, 512, true);
-        descer = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.descer_escadas), 512, 512, true);
-        subir = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.subir_escadas), 512, 512, true);
-        saltar = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.saltar), 512, 512, true);
-        vazio = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.vazio), 512, 512, true);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+
+        switch (item.getItemId()) {
+            case R.id.menu_sensors:
+                Intent intentSensors = new Intent(this, SensorsActivity.class);
+                startActivity(intentSensors);
+                return true;
+            case R.id.menu_activity_mngmt:
+                Intent intentAddAct = new Intent(this, ManagementActivity.class);
+                startActivity(intentAddAct);
+                return true;
+            case R.id.menu_collect:
+                Intent intentClassify = new Intent(this, CollectActivity.class);
+                startActivity(intentClassify);
+                return true;
+            case R.id.menu_train:
+                Intent intentTrain = new Intent(this, TrainActivity.class);
+                startActivity(intentTrain);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -213,41 +178,6 @@ public class ClassifyActivity extends AppCompatActivity implements ServiceListen
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Bitmap actual = vazio;
-                try {
-                    int idx = text.indexOf("Activity: ");
-                    if( idx == -1) {
-                        idx = text.indexOf("Atividade: ");
-                    }
-                    String actividadeActual = text.substring(idx);
-                    actividadeActual = actividadeActual.split("\n")[0];
-                    actividadeActual = actividadeActual.split(":")[1];
-                    switch (actividadeActual.trim()) {
-                        case "Andar":
-                            actual = andar;
-                            break;
-                        case "Andar de carro":
-                            actual = andarDeCarro;
-                            break;
-                        case "Correr":
-                            actual = correr;
-                            break;
-                        case "Descer escadas":
-                            actual = descer;
-                            break;
-                        case "Nenhuma":
-                            actual = nenhuma;
-                            break;
-                        case "Saltar continuo":
-                            actual = saltar;
-                            break;
-                        case "Subir escadas":
-                            actual = subir;
-                            break;
-                    }
-                } catch (Exception e) {}
-
-                activityImage.setImageBitmap(actual);
 
                 hcTxtInfo1.setText(text);
                 System.out.println(text);
@@ -272,22 +202,11 @@ public class ClassifyActivity extends AppCompatActivity implements ServiceListen
             return;
         }
 
-        String algoritmo = (String)chooseClassifier.getSelectedItem();
-        if( algoritmo.startsWith("-") ) {
-            return;
-        }
-
         blockButtons();
 
-        List<Integer> lista = null;
 
-        if( algoritmo.contains("64") || algoritmo.contains("128") || algoritmo.equals("AndroidTrainClassifier") ) {
-            lista = Sensors.getInstance(this).getClassifySensors();
-//        } else if( algoritmo precisa dos selected sensores ) {
-//            lista = Sensors.getInstance(this).getAvailableSensors();
-        } else {
-            lista = Sensors.getInstance(this).getSelectedSensors();
-        }
+//        if( algoritmo.contains("64") || algoritmo.contains("128") || algoritmo.equals("AndroidTrainClassifier") ) {
+        List<Integer> lista = Sensors.getInstance(this).getClassifySensors();
 
         for (Integer sensor: lista) {
 
@@ -315,27 +234,15 @@ public class ClassifyActivity extends AppCompatActivity implements ServiceListen
             sensorsService.getSensors().removeSensor(sensor);
         }
         blockButtons();
-        activityImage.setImageBitmap(vazio);
     }
 
     public void startCollecting() {
 
 //        createInstances();
 
-        String algoritmo = (String)chooseClassifier.getSelectedItem();
-
-        if(algoritmo.startsWith("-")) {
-
-            return;
-        }
-        algoritmo = "zokscore.com.mobile.patternrecognition.classifiers." + algoritmo;
         try {
-            Class alg = Class.forName(algoritmo);
-
-            Constructor<ActivityClassifier> cons = alg.getConstructor(Context.class);
-            ActivityClassifier activityClassifier = cons.newInstance(this);
-
-            sensorsService.startCollectingToClassify(activityClassifier);
+            ActivityClassifier activityClassifier = new AndroidTrainClassifier(this);
+            sensorsService.startCollecting(activityClassifier);
             blockButtons();
 
         } catch (Exception e) {
@@ -360,12 +267,10 @@ public class ClassifyActivity extends AppCompatActivity implements ServiceListen
 
             hcBtnStop.setEnabled(true);
             hcBtnStart.setEnabled(false);
-            chooseClassifier.setEnabled(false);
         } else {
 
             hcBtnStop.setEnabled(false);
             hcBtnStart.setEnabled(true);
-            chooseClassifier.setEnabled(true);
         }
     }
 

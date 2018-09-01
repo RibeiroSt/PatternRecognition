@@ -10,5 +10,4 @@ public interface SensorDataListener {
 
     public void showStatus(String text);
 
-    public boolean verifyClassifying();
 }

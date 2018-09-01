@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -112,38 +111,7 @@ public class CollectActivity extends AppCompatActivity implements ServiceListene
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-
-        switch (item.getItemId()) {
-            case R.id.menu_sensors:
-                Intent intentSensors = new Intent(this, SensorsActivity.class);
-                startActivity(intentSensors);
-                return true;
-            case R.id.menu_activity_mngmt:
-                Intent intentAddAct = new Intent(this, ManagementActivity.class);
-                startActivity(intentAddAct);
-                return true;
-            case R.id.menu_classify:
-                Intent intentClassify = new Intent(this, ClassifyActivity.class);
-                startActivity(intentClassify);
-                return true;
-            case R.id.menu_train:
-                Intent intentTrain = new Intent(this, TrainActivity.class);
-                startActivity(intentTrain);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     private void loadSpinnerData() {
 
@@ -258,7 +226,8 @@ public class CollectActivity extends AppCompatActivity implements ServiceListene
             @Override
             public void run() {
 
-                hcTxtInfo1.setText("Generated line number: " + line + "\n" + text.replace("?","'" + userActivity + "'"));
+//                hcTxtInfo1.setText("Generated line number: " + line + "\n" + text.replace("?","'" + userActivity + "'"));
+                hcTxtInfo1.setText("Collecting data...\nNumber of samples: " + line + "\n");
                 System.out.println(text.replace("?","'" + userActivity + "'"));
             }
         });
@@ -490,12 +459,13 @@ public class CollectActivity extends AppCompatActivity implements ServiceListene
         return new FileWriter(file, true);
     }
 
-    private void startCollecting() {
+    private void startCollecting() throws Exception {
 
         for (Integer sensor: Sensors.getInstance(this).getClassifySensors()) {
 
             sensorsService.getSensors().addSensor(sensor);
         }
-        sensorsService.startCollectingToClassify(new ClassifierTrainData(this));
+
+        sensorsService.startCollecting(new ClassifierTrainData(this));
     }
 }

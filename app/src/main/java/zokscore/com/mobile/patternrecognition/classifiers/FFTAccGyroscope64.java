@@ -33,7 +33,7 @@ public abstract class FFTAccGyroscope64 extends ActivityClassifier {
 
     private FFT fft = new FFT(N);
 
-    public FFTAccGyroscope64(Context context) {
+    public FFTAccGyroscope64(Context context) throws Exception {
         super(context);
     }
 
@@ -42,14 +42,7 @@ public abstract class FFTAccGyroscope64 extends ActivityClassifier {
     protected Instances createInstances() {
 
         List<String> classesList   = Arrays.asList(
-                "Andar",
-                "Andar de carro",
-                "Correr",
-                "Descer escadas",
-                "Nenhuma",
-                "Saltar",
-                "Saltar continuo",
-                "Subir escadas"
+                "None"
         );
         Attribute classes = new Attribute("@@class@@", classesList);
 
@@ -179,10 +172,10 @@ public abstract class FFTAccGyroscope64 extends ActivityClassifier {
                         }
                         String res = "\n\n";
 
-                        res += "Activity: " + singleInstance.classAttribute().value((int) result) + "\n";
-                        res += "Counter: " + (counter++) + "\n";
-                        res += "Stepdetector: " + data.getStepDetectorData() + "\n";
-                        res += "Distribution: " + distribution + "\n\n";
+                        res += "Activity: " + singleInstance.classAttribute().value((int) result) + "\n\n";
+                        res += "Counter: " + (counter++) + "\n\n";
+//                        res += "Stepdetector: " + data.getStepDetectorData() + "\n";
+                        res += "Distribution: " + distribution + "\n";
 
                         if (listener != null) {
                             listener.onShowStatus(res);

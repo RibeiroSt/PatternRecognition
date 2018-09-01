@@ -40,14 +40,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL(CREATE_ACTIVITIES_TABLE);
         String INSERT_ACTIVITIES_TABLE = "INSERT INTO " + TABLE_ACTIVITIES + "("
                 + KEY_ID + " ," + KEY_ACTIVITY + ") VALUES ";
-        INSERT_ACTIVITIES_TABLE += "  (1, 'Andar')";
-        INSERT_ACTIVITIES_TABLE += ", (2, 'Correr')";
-        INSERT_ACTIVITIES_TABLE += ", (3, 'Saltar')";
-        INSERT_ACTIVITIES_TABLE += ", (4, 'Descer escadas')";
-        INSERT_ACTIVITIES_TABLE += ", (5, 'Subir escadas')";
-        INSERT_ACTIVITIES_TABLE += ", (6, 'Andar de carro')";
-        INSERT_ACTIVITIES_TABLE += ", (7, 'Escrever com a mão direita')";
-        INSERT_ACTIVITIES_TABLE += ", (8, 'Escrever com a mão esquerda')";
+        INSERT_ACTIVITIES_TABLE += "  (1, 'None')";
+        INSERT_ACTIVITIES_TABLE += ", (2, 'Walk')";
+        INSERT_ACTIVITIES_TABLE += ", (3, 'Run')";
+        INSERT_ACTIVITIES_TABLE += ", (4, 'Jump')";
 
         INSERT_ACTIVITIES_TABLE += ";";
         db.execSQL(INSERT_ACTIVITIES_TABLE);

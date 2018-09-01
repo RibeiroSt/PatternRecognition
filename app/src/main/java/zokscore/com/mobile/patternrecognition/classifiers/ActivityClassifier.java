@@ -24,7 +24,7 @@ public abstract class ActivityClassifier {
     protected Instances instancesSet = null;
     protected Classifier classifier = null;
 
-    public ActivityClassifier(Context context) {
+    public ActivityClassifier(Context context) throws Exception {
 
         contextInstance = context;
         classifier = createClassifier();
@@ -35,7 +35,7 @@ public abstract class ActivityClassifier {
         return null;
     }
 
-    protected Classifier createClassifier() {
+    protected Classifier createClassifier() throws Exception {
 
         String fileName = getClassifierFileName();
 

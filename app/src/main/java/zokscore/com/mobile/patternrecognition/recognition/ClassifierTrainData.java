@@ -33,7 +33,7 @@ public class ClassifierTrainData extends ActivityClassifier {
 
     private FFT fft = new FFT(N);
 
-    public ClassifierTrainData(Context context) {
+    public ClassifierTrainData(Context context) throws Exception {
         super(context);
     }
 
@@ -47,14 +47,7 @@ public class ClassifierTrainData extends ActivityClassifier {
 
 
         List<String> classesList   = Arrays.asList(
-                "Andar",
-                "Andar de carro",
-                "Correr",
-                "Descer escadas",
-                "Nenhuma",
-                "Saltar",
-                "Saltar continuo",
-                "Subir escadas"
+                "None"
         );
         Attribute classes = new Attribute("@@class@@", classesList);
 

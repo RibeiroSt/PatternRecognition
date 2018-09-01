@@ -2,10 +2,10 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:id="@+id/menu_collect"
+        android:title="Collect" />
     <item android:id="@+id/menu_train"
         android:title="Train" />
-    <item android:id="@+id/menu_classify"
-        android:title="Classify" />
     <item android:id="@+id/menu_activity_mngmt"
         android:title="Activities Management" />
     <item android:id="@+id/menu_sensors"

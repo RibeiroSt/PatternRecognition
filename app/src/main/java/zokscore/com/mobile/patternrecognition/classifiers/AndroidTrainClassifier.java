@@ -25,15 +25,18 @@ public class AndroidTrainClassifier extends FFTAccGyroscope64 {
     private SharedPreferences sharedPreferences;
     private List<String> classesList;
 
-    public AndroidTrainClassifier(Context context) {
+    public AndroidTrainClassifier(Context context) throws Exception {
         super(context);
     }
 
-    protected Classifier createClassifier() {
+    protected Classifier createClassifier() throws Exception {
         classesList = new ArrayList<>();
         sharedPreferences = contextInstance.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         String listOfClasses = sharedPreferences.getString("listOfClasses", null);
         System.out.println("listOfClasses=<"+listOfClasses+">");
+        if( listOfClasses == null ) {
+            throw new Exception("You must collect data and train before classify.");
+        }
         for(String c : listOfClasses.split(",")) {
             classesList.add(c.trim());
         }

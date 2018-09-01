@@ -64,7 +64,7 @@ public class ManagementActivity extends AppCompatActivity {
         }
     }
 
-    public void onClickApagar(View view) {
+    public void onClickDelete(View view) {
         // database handler
         DatabaseHandler db = new DatabaseHandler(getApplicationContext());
         String str = (String)escolhaActividade.getSelectedItem();

@@ -16,7 +16,7 @@
 
         <service android:name=".sensors.SensorsService" />
         
-        <activity android:name=".CollectActivity">
+        <activity android:name=".ClassifyActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,17 +26,17 @@
 
         <activity
             android:name=".SensorsActivity"
-            android:parentActivityName=".CollectActivity" />
+            android:parentActivityName=".ClassifyActivity" />
         <activity
             android:name=".ManagementActivity"
-            android:parentActivityName=".CollectActivity" />
+            android:parentActivityName=".ClassifyActivity" />
         <activity
-            android:name=".ClassifyActivity"
-            android:parentActivityName=".CollectActivity" />
+            android:name=".CollectActivity"
+            android:parentActivityName=".ClassifyActivity" />
         <activity
             android:name=".TrainActivity"
             android:launchMode="singleTask"
-            android:parentActivityName=".CollectActivity" />
+            android:parentActivityName=".ClassifyActivity" />
         <service
             android:name=".recognition.TrainIntentService"
             android:exported="false" />

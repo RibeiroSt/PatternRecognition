@@ -229,7 +229,7 @@ public class Sensors implements SensorEventListener {
 
             if (sensorEvent != null) {
 
-                collectEventData(sensorEvent, l.verifyClassifying());
+                collectEventData(sensorEvent);
             }
             proceedNotifyingListener(l);
         }
@@ -237,31 +237,14 @@ public class Sensors implements SensorEventListener {
 
     private void proceedNotifyingListener(SensorDataListener sdl) {
 
-        if (sdl.verifyClassifying()) {
+        if (data.isCompleteForClassifySensors()) {
 
-            if (data.isCompleteForClassifySensors()) {
-
-                sdl.onSensorData(data);
-                data.setStepDetectorData(0);
-            }
-        } else {
-
-            if (data.isComplete()) {
-
-                sdl.onSensorData(data);
-                data.setStepDetectorData(0);
-
-            } else if (lastStatusUpdate > 1000) {
-
-                String text = "Waiting for the sensors to become online...\n" + data.getSensorsStatus();
-                sdl.showStatus(text);
-
-                lastStatusUpdate = SensorData.getTimeInMillis();
-            }
+            sdl.onSensorData(data);
+            data.setStepDetectorData(0);
         }
     }
 
-    private void collectEventData(SensorEvent sensorEvent, boolean classifying) {
+    private void collectEventData(SensorEvent sensorEvent) {
 
         synchronized (data) {
             switch (sensorEvent.sensor.getType()) {
