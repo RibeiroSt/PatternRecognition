@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.AssetManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
@@ -14,23 +12,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.List;
-
-import weka.classifiers.Classifier;
-import weka.core.Instances;
 import com.zokscore.mobile.patternrecognition.classifiers.ActivityClassifier;
 import com.zokscore.mobile.patternrecognition.classifiers.AndroidTrainClassifier;
 import com.zokscore.mobile.patternrecognition.sensors.Sensors;
 import com.zokscore.mobile.patternrecognition.sensors.SensorsService;
+
+import java.util.List;
+
+import weka.classifiers.Classifier;
+import weka.core.Instances;
 
 public class ClassifyActivity extends AppCompatActivity implements ServiceListener {
 

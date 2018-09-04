@@ -2,7 +2,8 @@ package com.zokscore.mobile.patternrecognition.classifiers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Environment;
+
+import com.zokscore.mobile.patternrecognition.recognition.TrainIntentService;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,7 +13,6 @@ import java.util.List;
 import weka.classifiers.Classifier;
 import weka.core.Attribute;
 import weka.core.Instances;
-import com.zokscore.mobile.patternrecognition.recognition.TrainIntentService;
 
 /**
  * Created by pafgoncalves on 14-07-2018.
